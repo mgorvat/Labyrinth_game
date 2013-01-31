@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 //        Labyrinth lab = MazeGenerationAlgorithms.recBackTrack(10);
-        Labyrinth lab = MazeGenerationAlgorithms.huntAndKill(20);
-//        Labyrinth lab = MazeGenerationAlgorithms.divideEtImpera(10);
+        Labyrinth lab = MazeGenerationAlgorithms.huntAndKill(10);
+//        Labyrinth lab = MazeGenerationAlgorithms.divideEtImpera(75);
 //        ConsoleAdapter.visualize(lab);
         
         

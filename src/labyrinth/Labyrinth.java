@@ -49,9 +49,15 @@ public class Labyrinth {
         }       
     }
     
+    public interface IGameEndCallback{
+        public void gameEnded();
+    }
+    
     private int size;
     private Cell[][] labyrinth;
     private Coordinate playerCoordinate;
+    private IGameEndCallback callBack;
+    boolean gameInProgress = false;
     
     public Labyrinth(int size){
         this.size = size;
@@ -64,7 +70,12 @@ public class Labyrinth {
         }
     }
     
+    public void setCallback(IGameEndCallback callback){
+        this.callBack = callback;
+    }
+    
     public void initializeGame(){
+        gameInProgress = true;
         ArrayList<Coordinate> pts = findDiametr();
         getCell(pts.get(0).x, pts.get(0).y).content = CellContent.PLAYER;
         playerCoordinate = pts.get(0);
@@ -73,11 +84,17 @@ public class Labyrinth {
     }
     
     public void movePlayer(Coordinate.Direction dir){
-        if(!checkWall(playerCoordinate, dir)){
-            getCell(playerCoordinate).content = CellContent.NONE;
-            
-            playerCoordinate = new Coordinate(playerCoordinate, dir);
-            getCell(playerCoordinate).content = CellContent.PLAYER;
+        if(gameInProgress){
+            if(!checkWall(playerCoordinate, dir)){
+                getCell(playerCoordinate).content = CellContent.NONE;
+
+                playerCoordinate = new Coordinate(playerCoordinate, dir);
+                if(getCell(playerCoordinate).content == CellContent.GOAL){
+                    callBack.gameEnded();
+                    gameInProgress = false;            
+                }
+                getCell(playerCoordinate).content = CellContent.PLAYER;
+            }
         }
     }
     

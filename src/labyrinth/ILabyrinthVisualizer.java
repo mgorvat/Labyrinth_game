@@ -1,13 +1,13 @@
 package labyrinth;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
-public interface LabyrinthVisualizer {
+
+
+public interface ILabyrinthVisualizer {
     public void visualize(Graphics gr, int size, Labyrinth lab);
 }
-
-class SimpleLabyrinthVisualizer implements LabyrinthVisualizer{
+class SimpleLabyrinthVisualizer implements ILabyrinthVisualizer{
     @Override
     public void visualize(Graphics gr, int size, Labyrinth lab) {
         gr.drawLine(0, 0, 0, size);
