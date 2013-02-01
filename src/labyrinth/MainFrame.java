@@ -31,15 +31,9 @@ public class MainFrame extends JFrame {
         };
     }
     
-    public MainFrame(Labyrinth lab, ILabyrinthVisualizer visualizer){
-//        JOptionPane.showMessageDialog(this, "You win!");
-        this.labyrinth = lab;
-        lab.setCallback(makeCallback(this));
-                
-        this.visualizer = visualizer;
+    public MainFrame(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
         this.setSize(500, 500);
-        this.setVisible(true);
         
         this.addKeyListener(new KeyAdapter(){
             @Override
@@ -73,6 +67,14 @@ public class MainFrame extends JFrame {
             }
         });
         this.add(labPanel);
+        this.setVisible(true);
+    }
+    
+    public void initializeLabyrinth(Labyrinth lab, ILabyrinthVisualizer visualizer){
+        this.labyrinth = lab;
+        lab.setCallback(makeCallback(this));
+                
+        this.visualizer = visualizer;
     }
 }
 
