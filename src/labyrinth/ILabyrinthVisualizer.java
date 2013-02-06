@@ -119,15 +119,10 @@ class CurveLabyrinthVisualizer implements ILabyrinthVisualizer{
                                 Math.round(curY + cellSize / 4),
                                 Math.round(cellSize / 2), Math.round(cellSize / 2));
                         gr.setColor(Color.black);
-                    }
-                    
+                    }   
                 }
-            
-            }
-            
+            }   
         }
- 
-        
     }
     
     private void drawSinCurve(int length, Graphics2D gr){
@@ -139,7 +134,71 @@ class CurveLabyrinthVisualizer implements ILabyrinthVisualizer{
             float cur = (float)(h * Math.sin(arg));
             gr.drawLine(i, Math.round(prev), i, Math.round(cur));
             prev = cur;
-        }
-    
+        }   
     }
+}
+
+class TriangleLabyrinthVisualizer implements ILabyrinthVisualizer{
+    public void drawUpSide(Graphics2D gr, int length, Color clr){
+        gr.setColor(clr);
+        gr.fillPolygon(new int[]{0, length, length / 2}, new int[]{0, 0, length / 2}, 3);
+    }
+    public void drawRightSide(Graphics2D gr, int length, Color clr){
+        gr.setColor(clr);
+        gr.fillPolygon(new int[]{length, length, length / 2}, new int[]{0, length, length / 2}, 3);
+    }
+    public void drawDownSide(Graphics2D gr, int length, Color clr){
+        gr.setColor(clr);
+        gr.fillPolygon(new int[]{0, length / 2, length}, new int[]{length, length/2, length}, 3);
+    }    
+    public void drawLeftSide(Graphics2D gr, int length, Color clr){
+        gr.setColor(clr);
+        gr.fillPolygon(new int[]{0, length / 2, 0}, new int[]{0, length / 2, length}, 3);
+    }
+    
+    @Override
+    public void visualize(Graphics2D gr, int size, Labyrinth lab) {
+        float cellSize = (float)size / lab.getSize();
+        
+        AffineTransform at;
+        
+        for(int i = 0; i < lab.getSize(); i++){
+            for(int j = 0; j < lab.getSize(); j++){
+                at = AffineTransform.getTranslateInstance(Math.round(i * cellSize), Math.round(j * cellSize));
+                gr.setTransform(at);
+                
+                if(lab.checkWall(i, j, Coordinate.Direction.UP) == true)drawUpSide(gr, (int)(cellSize + 1), Color.RED);
+                else drawUpSide(gr, (int)(cellSize + 1), Color.GREEN);
+                
+                if(lab.checkWall(i, j, Coordinate.Direction.RIGHT) == true)drawRightSide(gr, (int)(cellSize + 1), Color.RED);
+                else drawRightSide(gr, (int)(cellSize + 1), Color.GREEN);
+                
+                if(lab.checkWall(i, j, Coordinate.Direction.DOWN) == true)drawDownSide(gr, (int)(cellSize + 1), Color.RED);
+                else drawDownSide(gr, (int)(cellSize + 1), Color.GREEN);
+                
+                if(lab.checkWall(i, j, Coordinate.Direction.LEFT) == true)drawLeftSide(gr, (int)(cellSize + 1), Color.RED);
+                else drawLeftSide(gr, (int)(cellSize + 1), Color.GREEN);
+                
+                if(lab.getCell(i, j).content != Labyrinth.CellContent.NONE){
+                    if(lab.getCell(i, j).content == Labyrinth.CellContent.PLAYER){
+                        gr.setColor(Color.BLUE);
+                        gr.fillOval(Math.round(cellSize / 4), 
+                                Math.round(cellSize / 4),
+                                Math.round(cellSize / 2), Math.round(cellSize / 2));
+                        
+                    }
+                    
+                    if(lab.getCell(i, j).content == Labyrinth.CellContent.GOAL){
+                        gr.setColor(Color.BLACK);
+                        gr.fillRect(Math.round(cellSize / 4), 
+                                Math.round(cellSize / 4),
+                                Math.round(cellSize / 2), Math.round(cellSize / 2));
+                        
+                    }   
+                }
+            
+            }
+        }
+    }
+
 }

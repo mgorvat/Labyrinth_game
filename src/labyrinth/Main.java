@@ -5,7 +5,6 @@ public class Main {
 //        Labyrinth lab = MazeGenerationAlgorithms.recBackTrack(15);
         Labyrinth lab = MazeGenerationAlgorithms.huntAndKill(15);
 //        Labyrinth lab = MazeGenerationAlgorithms.divideEtImpera(15);
-//        ConsoleAdapter.visualize(lab);
         
 //        ConsoleAdapter.visualize(lab);
         
@@ -13,9 +12,11 @@ public class Main {
 //        System.out.println(diametr.get(1).x + " " + diametr.get(1).y);
         
         lab.initializeGame();
-        
         MainFrame mfr = new MainFrame();
+        
+        
 //        mfr.initializeLabyrinth(lab, new SimpleLabyrinthVisualizer());
         mfr.initializeLabyrinth(lab, new CurveLabyrinthVisualizer());
+//        mfr.initializeLabyrinth(lab, new TriangleLabyrinthVisualizer());
     }
 }
