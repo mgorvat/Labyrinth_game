@@ -12,7 +12,8 @@ public class MainFrame extends JFrame {
     
     class LabyrinthPanel extends JPanel{
         @Override
-        public void paintComponent(Graphics gr){
+        public void paintComponent(Graphics g){
+            Graphics2D gr = (Graphics2D)g;
             int size = Math.min(this.getHeight(), this.getWidth());
             gr.setColor(this.getBackground());
             gr.fillRect(0, 0, size, size);

@@ -2,9 +2,9 @@ package labyrinth;
 
 public class Main {
     public static void main(String[] args) {
-//        Labyrinth lab = MazeGenerationAlgorithms.recBackTrack(10);
+//        Labyrinth lab = MazeGenerationAlgorithms.recBackTrack(15);
         Labyrinth lab = MazeGenerationAlgorithms.huntAndKill(15);
-//        Labyrinth lab = MazeGenerationAlgorithms.divideEtImpera(75);
+//        Labyrinth lab = MazeGenerationAlgorithms.divideEtImpera(15);
 //        ConsoleAdapter.visualize(lab);
         
 //        ConsoleAdapter.visualize(lab);
@@ -15,6 +15,7 @@ public class Main {
         lab.initializeGame();
         
         MainFrame mfr = new MainFrame();
-        mfr.initializeLabyrinth(lab, new SimpleLabyrinthVisualizer());
+//        mfr.initializeLabyrinth(lab, new SimpleLabyrinthVisualizer());
+        mfr.initializeLabyrinth(lab, new CurveLabyrinthVisualizer());
     }
 }
