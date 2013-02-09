@@ -16,9 +16,10 @@ public class Main {
         
         
 //        mfr.initializeLabyrinth(lab, new SimpleLabyrinthVisualizer());
+        mfr.initializeLabyrinth(lab, new LineLabyrinthVisualizer());
 //        mfr.initializeLabyrinth(lab, new CurveLabyrinthVisualizer());
 //        mfr.initializeLabyrinth(lab, new TriangleLabyrinthVisualizer());
-        mfr.initializeLabyrinth(lab, new LineLabyrinthVisualizer());
+        
         
     }
 }

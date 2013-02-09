@@ -167,17 +167,17 @@ class TriangleLabyrinthVisualizer implements ILabyrinthVisualizer{
                 at = AffineTransform.getTranslateInstance(Math.round(i * cellSize), Math.round(j * cellSize));
                 gr.setTransform(at);
                                 
-                if(lab.checkWall(i, j, Coordinate.Direction.UP) == true)drawUpSide(gr, (int)(cellSize + 1), Color.RED);
-                else drawUpSide(gr, (int)(cellSize + 1), Color.GREEN);
+                if(lab.checkWall(i, j, Coordinate.Direction.UP) == true)drawUpSide(gr, (int)(cellSize + 1), Color.DARK_GRAY);
+                else drawUpSide(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
                 
-                if(lab.checkWall(i, j, Coordinate.Direction.RIGHT) == true)drawRightSide(gr, (int)(cellSize + 1), Color.RED);
-                else drawRightSide(gr, (int)(cellSize + 1), Color.GREEN);
+                if(lab.checkWall(i, j, Coordinate.Direction.RIGHT) == true)drawRightSide(gr, (int)(cellSize + 1), Color.DARK_GRAY);
+                else drawRightSide(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
                 
-                if(lab.checkWall(i, j, Coordinate.Direction.DOWN) == true)drawDownSide(gr, (int)(cellSize + 1), Color.RED);
-                else drawDownSide(gr, (int)(cellSize + 1), Color.GREEN);
+                if(lab.checkWall(i, j, Coordinate.Direction.DOWN) == true)drawDownSide(gr, (int)(cellSize + 1), Color.DARK_GRAY);
+                else drawDownSide(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
                 
-                if(lab.checkWall(i, j, Coordinate.Direction.LEFT) == true)drawLeftSide(gr, (int)(cellSize + 1), Color.RED);
-                else drawLeftSide(gr, (int)(cellSize + 1), Color.GREEN);
+                if(lab.checkWall(i, j, Coordinate.Direction.LEFT) == true)drawLeftSide(gr, (int)(cellSize + 1), Color.DARK_GRAY);
+                else drawLeftSide(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
                 
                 
                 //TODO: think about adding this.
@@ -189,20 +189,15 @@ class TriangleLabyrinthVisualizer implements ILabyrinthVisualizer{
                 
                 if(lab.getCell(i, j).content != Labyrinth.CellContent.NONE){
                     if(lab.getCell(i, j).content == Labyrinth.CellContent.PLAYER){
-                        gr.setColor(Color.BLUE);
-//                        gr.fillOval(Math.round(cellSize / 4), 
-//                                Math.round(cellSize / 4),
-//                                Math.round(cellSize / 2), Math.round(cellSize / 2));
-                        gr.fillPolygon(
-                                new int[]{Math.round(cellSize / 2), Math.round(3 * cellSize / 4),
+                        gr.setColor(Color.ORANGE);
+                        gr.fillPolygon(new int[]{Math.round(cellSize / 2), Math.round(3 * cellSize / 4),
                                 Math.round(cellSize / 2), Math.round(cellSize / 4)}, 
                                 new int[]{Math.round(cellSize / 4),Math.round(cellSize / 2),
                                 Math.round(3 * cellSize / 4),Math.round(cellSize / 2)}, 4);
-                        
                     }
                     
                     if(lab.getCell(i, j).content == Labyrinth.CellContent.GOAL){
-                        gr.setColor(Color.BLACK);
+                        gr.setColor(Color.GREEN);
                         gr.fillRect(Math.round(cellSize / 4), 
                                 Math.round(cellSize / 4),
                                 Math.round(cellSize / 2), Math.round(cellSize / 2));       

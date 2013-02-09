@@ -35,6 +35,7 @@ public class MainFrame extends JFrame {
     public MainFrame(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
         this.setSize(500, 500);
+        this.add(labPanel);
         
         this.addKeyListener(new KeyAdapter(){
             @Override
@@ -67,7 +68,6 @@ public class MainFrame extends JFrame {
                 labPanel.repaint();
             }
         });
-        this.add(labPanel);
         this.setVisible(true);
     }
     
