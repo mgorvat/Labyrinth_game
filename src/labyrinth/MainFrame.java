@@ -55,6 +55,7 @@ public class MainFrame extends JFrame {
         JMenuItem lineInterfaceItem = new JMenuItem("Minimalistic interface");
         JMenuItem curveInterfaceItem = new JMenuItem("Curve interface");
         JMenuItem triangleInterfaceItem = new JMenuItem("Triangle interface");
+        JMenuItem squareInterfaceItem = new JMenuItem("Square interface");
         
         basicInterfaceItem.addActionListener(new ActionListener(){
             @Override
@@ -87,12 +88,21 @@ public class MainFrame extends JFrame {
                 labPanel.repaint();
             }
         });
+        
+        squareInterfaceItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visualizer = new SquareLabyrinthVisualizer();
+                labPanel.repaint();
+            }
+        });
                 
         
         menu.add(basicInterfaceItem);
         menu.add(curveInterfaceItem);
         menu.add(lineInterfaceItem);
         menu.add(triangleInterfaceItem); 
+        menu.add(squareInterfaceItem); 
        
         menuBar.add(menu);
         

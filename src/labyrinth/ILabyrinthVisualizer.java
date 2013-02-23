@@ -188,14 +188,6 @@ class TriangleLabyrinthVisualizer implements ILabyrinthVisualizer{
                 if(lab.checkWall(i, j, Coordinate.Direction.LEFT) == true)drawLeftSide(gr, (int)(cellSize + 1), Color.DARK_GRAY);
                 else drawLeftSide(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
                 
-                
-                //TODO: think about adding this.
-//                gr.setColor(Color.BLACK);
-//                gr.drawLine(0, 0, (int)(cellSize + 1), 0);
-//                gr.drawLine((int)(cellSize + 1), 0, (int)(cellSize + 1), (int)(cellSize + 1));
-//                gr.drawLine(0, (int)(cellSize + 1), (int)(cellSize + 1), (int)(cellSize + 1));
-//                gr.drawLine(0, 0, 0, (int)(cellSize + 1));
-                
                 if(lab.getCell(i, j).content != Labyrinth.CellContent.NONE){
                     if(lab.getCell(i, j).content == Labyrinth.CellContent.PLAYER){
                         gr.setColor(Color.ORANGE);
@@ -257,6 +249,79 @@ class MinimalisticLabyrinthVisualizer implements ILabyrinthVisualizer{
                 }
                 
             }   
+        }
+    }
+}
+
+
+class SquareLabyrinthVisualizer implements ILabyrinthVisualizer{
+    public void drawUpSide(Graphics2D gr, int length, Color clr){
+        gr.setColor(clr);
+        gr.fillPolygon(new int[]{0, length, 3 * length / 4, length / 4}, new int[]{0, 0, length / 4, length / 4}, 4);
+        
+    }
+    public void drawRightSide(Graphics2D gr, int length, Color clr){
+        gr.setColor(clr);
+        gr.fillPolygon(new int[]{length, length, 3 * length / 4, 3 * length / 4}, new int[]{0, length, 3 * length / 4, length / 4}, 4);
+        
+    }
+    public void drawDownSide(Graphics2D gr, int length, Color clr){
+        gr.setColor(clr);
+        gr.fillPolygon(new int[]{0, length, 3 * length / 4, length / 4}, new int[]{length, length, 3 * length / 4, 3 * length / 4}, 4);
+    }    
+    public void drawLeftSide(Graphics2D gr, int length, Color clr){
+        gr.setColor(clr);
+        gr.fillPolygon(new int[]{0, 0, length / 4, length / 4}, new int[]{0, length, 3 * length / 4, length / 4}, 4);
+    }
+    
+    public void drawCenter(Graphics2D gr, int length, Color clr){
+        gr.setColor(clr);
+        gr.fillRect(length / 4, length / 4, length / 2, length / 2);
+    }
+    
+    @Override
+    public void visualize(Graphics2D gr, int size, Labyrinth lab) {
+        float cellSize = (float)size / lab.getSize();
+        AffineTransform defaultTransform = gr.getTransform();
+        AffineTransform at;
+        
+        for(int i = 0; i < lab.getSize(); i++){
+            for(int j = 0; j < lab.getSize(); j++){
+                at = AffineTransform.getTranslateInstance(Math.round(i * cellSize), Math.round(j * cellSize));
+                gr.setTransform(defaultTransform);
+                gr.transform(at);
+                
+                drawCenter(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
+                
+                if(lab.checkWall(i, j, Coordinate.Direction.UP) == true)drawUpSide(gr, (int)(cellSize + 1), Color.DARK_GRAY);
+                else drawUpSide(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
+                
+                if(lab.checkWall(i, j, Coordinate.Direction.RIGHT) == true)drawRightSide(gr, (int)(cellSize + 1), Color.DARK_GRAY);
+                else drawRightSide(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
+                
+                if(lab.checkWall(i, j, Coordinate.Direction.DOWN) == true)drawDownSide(gr, (int)(cellSize + 1), Color.DARK_GRAY);
+                else drawDownSide(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
+                
+                if(lab.checkWall(i, j, Coordinate.Direction.LEFT) == true)drawLeftSide(gr, (int)(cellSize + 1), Color.DARK_GRAY);
+                else drawLeftSide(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
+                
+                if(lab.getCell(i, j).content != Labyrinth.CellContent.NONE){
+                    if(lab.getCell(i, j).content == Labyrinth.CellContent.PLAYER){
+                        gr.setColor(Color.ORANGE);
+                        gr.fillPolygon(new int[]{Math.round(cellSize / 2), Math.round(3 * cellSize / 4),
+                                Math.round(cellSize / 2), Math.round(cellSize / 4)}, 
+                                new int[]{Math.round(cellSize / 4),Math.round(cellSize / 2),
+                                Math.round(3 * cellSize / 4),Math.round(cellSize / 2)}, 4);
+                    }
+                    
+                    if(lab.getCell(i, j).content == Labyrinth.CellContent.GOAL){
+                        gr.setColor(Color.GREEN);
+                        gr.fillRect(Math.round(cellSize / 4), 
+                                Math.round(cellSize / 4),
+                                Math.round(cellSize / 2), Math.round(cellSize / 2));       
+                    }   
+                }       
+            }
         }
     }
 }

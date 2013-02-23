@@ -11,6 +11,7 @@ public class Main {
 //        mfr.setOptions(gen, new MinimalisticLabyrinthVisualizer());
 //        mfr.setOptions(gen, new CurveLabyrinthVisualizer());
 //        mfr.setOptions(gen, new TriangleLabyrinthVisualizer());
+//        mfr.setOptions(gen, new SquareLabyrinthVisualizer());
         
         mfr.initializeLabyrinth();
         
