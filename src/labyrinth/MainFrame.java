@@ -6,19 +6,23 @@ import javax.swing.*;
 import labyrinth.Labyrinth.IGameEndCallback;
 
 public class MainFrame extends JFrame {
+    private IMazeGenerator generator;
     private Labyrinth labyrinth;
     private ILabyrinthVisualizer visualizer;
+    int labyrinthSize = 12;
+        
+    
     private JPanel labPanel = new LabyrinthPanel();
     
     class LabyrinthPanel extends JPanel{
         @Override
         public void paintComponent(Graphics g){
-            Graphics2D gr = (Graphics2D)g;
-            int size = Math.min(this.getHeight(), this.getWidth());
-            gr.setColor(this.getBackground());
-            gr.fillRect(0, 0, size, size);
-            gr.setColor(Color.BLACK);
-            visualizer.visualize(gr, size, labyrinth);
+            super.paintComponent(g);
+            if(labyrinth != null){
+                Graphics2D gr = (Graphics2D)g;
+                int size = Math.min(this.getHeight(), this.getWidth());
+                visualizer.visualize(gr, size, labyrinth);
+            }
         }
     }
     
@@ -27,17 +31,75 @@ public class MainFrame extends JFrame {
             @Override
             public void gameEnded() {
                 JOptionPane.showMessageDialog(frm, "You win!");
+                initializeLabyrinth();
             }
-            
         };
     }
     
     public MainFrame(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
         this.setSize(500, 500);
-        this.add(labPanel);
         
-        this.addKeyListener(new KeyAdapter(){
+//        JPanel mainPanel = new JPanel();
+//        this.add(mainPanel);
+        
+        
+//        BorderLayout bl = new BorderLayout();
+//        mainPanel.setLayout(bl);       
+//        mainPanel.add(labPanel, BorderLayout.CENTER);
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Interfaces");
+        
+        JMenuItem basicInterfaceItem = new JMenuItem("Basic inteface");
+        JMenuItem lineInterfaceItem = new JMenuItem("Minimalistic interface");
+        JMenuItem curveInterfaceItem = new JMenuItem("Curve interface");
+        JMenuItem triangleInterfaceItem = new JMenuItem("Triangle interface");
+        
+        basicInterfaceItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visualizer = new BasicLabyrinthVisualizer();
+                labPanel.repaint();
+            }
+        });
+        
+        lineInterfaceItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visualizer = new MinimalisticLabyrinthVisualizer();
+                labPanel.repaint();
+            }
+        });
+        
+        curveInterfaceItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visualizer = new CurveLabyrinthVisualizer();
+                labPanel.repaint();
+            }
+        });
+        
+        triangleInterfaceItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visualizer = new TriangleLabyrinthVisualizer();
+                labPanel.repaint();
+            }
+        });
+                
+        
+        menu.add(basicInterfaceItem);
+        menu.add(curveInterfaceItem);
+        menu.add(lineInterfaceItem);
+        menu.add(triangleInterfaceItem); 
+       
+        menuBar.add(menu);
+        
+        
+        
+        
+        labPanel.addKeyListener(new KeyAdapter(){
             @Override
             public void keyPressed(KeyEvent e) {
                 switch(e.getKeyCode()){
@@ -68,14 +130,25 @@ public class MainFrame extends JFrame {
                 labPanel.repaint();
             }
         });
-        this.setVisible(true);
+        
+        this.setJMenuBar(menuBar);
+        this.add(labPanel);
+        labPanel.setFocusable(true);
+        
+
+
+
     }
     
-    public void initializeLabyrinth(Labyrinth lab, ILabyrinthVisualizer visualizer){
-        this.labyrinth = lab;
-        lab.setCallback(makeCallback(this));
-                
+    public void setOptions(IMazeGenerator generator, ILabyrinthVisualizer visualizer){
+        this.generator = generator;
         this.visualizer = visualizer;
+    }
+    
+    public void initializeLabyrinth(){
+        labyrinth = generator.generate(this.labyrinthSize);
+        labyrinth.setCallback(makeCallback(this));
+        labyrinth.initializeGame();
     }
 }
 

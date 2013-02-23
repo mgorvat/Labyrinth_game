@@ -1,23 +1,15 @@
 package labyrinth;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Stack;
+import java.util.*;
 
-public class MazeGenerationAlgorithms {  
-    private static ArrayList<Coordinate.Direction> getUnvisitedWays(boolean[][] vis, Coordinate coord){
-        int x = coord.x;
-        int y = coord.y;
-        ArrayList<Coordinate.Direction> res = new ArrayList<>();
-        
-        if(x > 0 && vis[x-1][y] == false)res.add(Coordinate.Direction.LEFT);
-        if(y > 0 && vis[x][y-1] == false)res.add(Coordinate.Direction.UP);
-        if(x < vis.length - 1 && vis[x+1][y] == false)res.add(Coordinate.Direction.RIGHT);
-        if(y < vis.length - 1 && vis[x][y+1] == false)res.add(Coordinate.Direction.DOWN); 
-        return res;
-    }
-    
-    public static Labyrinth recBackTrack(int size){
+public interface IMazeGenerator{
+    public Labyrinth generate(int size);
+}
+
+
+class BackTrackGenerator implements IMazeGenerator{
+    @Override
+    public Labyrinth generate(int size){
         Labyrinth lab = new Labyrinth(size);
         boolean[][] visited = new boolean[size][size];
         Stack<Coordinate> stack = new Stack<>();
@@ -29,7 +21,7 @@ public class MazeGenerationAlgorithms {
             Coordinate coord = stack.peek();
             visited[coord.x][coord.y] = true;
             
-            ArrayList<Coordinate.Direction> dirs = getUnvisitedWays(visited, coord);
+            ArrayList<Coordinate.Direction> dirs = MazeGeneratorsUtils.getUnvisitedWays(visited, coord);
             if(dirs.size() > 0){
                 int ind = rnd.nextInt(dirs.size());
                 Coordinate.Direction dir = dirs.get(ind);
@@ -41,13 +33,11 @@ public class MazeGenerationAlgorithms {
         } 
         return lab;
     }
-    
-    private static boolean isVisited(boolean[][] vis, int x, int y){
-        if(x < 0 || y < 0 || x >= vis.length|| y >= vis.length)return false;
-        return vis[x][y];
-    }
-    
-    public static Labyrinth huntAndKill(int size){
+}
+
+class HuntAndKillGenerator implements IMazeGenerator{
+    @Override
+    public Labyrinth generate(int size) {
         int[] deltX = new int[]{0, 1, 0, -1};
         int[] deltY = new int[]{-1, 0, 1, 0};
         
@@ -59,7 +49,7 @@ public class MazeGenerationAlgorithms {
         Coordinate coord = new Coordinate(rnd.nextInt(size), rnd.nextInt(size));
         while(coord != null){
             visited[coord.x][coord.y] = true;
-            ArrayList<Coordinate.Direction> dirs = getUnvisitedWays(visited, coord);
+            ArrayList<Coordinate.Direction> dirs = MazeGeneratorsUtils.getUnvisitedWays(visited, coord);
             if(dirs.size() > 0){
                 Coordinate.Direction dir = dirs.get(rnd.nextInt(dirs.size()));
                 lab.breakWall(coord, dir);
@@ -70,7 +60,7 @@ public class MazeGenerationAlgorithms {
                     for(int j = 0; j < size; j++){
                         if(visited[i][j] == false){
                             for(int k = 0; k < 4; k++){
-                                if(isVisited(visited, i + deltX[k], j + deltY[k])){
+                                if(MazeGeneratorsUtils.isVisited(visited, i + deltX[k], j + deltY[k])){
                                     newX = i;
                                     newY = j;
                                     switch (k){
@@ -103,12 +93,16 @@ public class MazeGenerationAlgorithms {
         }
         return lab;
     }
-        
-    
-    public static Labyrinth divideEtImpera(int size){
+}
+
+
+
+
+class DivideEtImperaGenerator implements IMazeGenerator{
+    @Override
+    public Labyrinth generate(int size) {
         Labyrinth lab = new Labyrinth(size);
         divideEtImpera(lab, 0, 0, size - 1, size - 1, new Random());
-        
         return lab;
     }
     
@@ -146,13 +140,32 @@ public class MazeGenerationAlgorithms {
             int portX = rnd.nextInt(xLine - x1 + 1) + x1;
             lab.breakWall(portX, yLine, Coordinate.Direction.DOWN);
         }
-        
-        
-        
+              
         divideEtImpera(lab, x1, y1, xLine, yLine, rnd);
         divideEtImpera(lab, xLine + 1, y1, x2, yLine, rnd);
         divideEtImpera(lab, x1, yLine + 1, xLine, y2, rnd);
         divideEtImpera(lab, xLine + 1, yLine + 1, x2, y2, rnd);
+    }
+
+}
+
+
+
+class MazeGeneratorsUtils {  
+    public static ArrayList<Coordinate.Direction> getUnvisitedWays(boolean[][] vis, Coordinate coord){
+        int x = coord.x;
+        int y = coord.y;
+        ArrayList<Coordinate.Direction> res = new ArrayList<>();
         
+        if(x > 0 && vis[x-1][y] == false)res.add(Coordinate.Direction.LEFT);
+        if(y > 0 && vis[x][y-1] == false)res.add(Coordinate.Direction.UP);
+        if(x < vis.length - 1 && vis[x+1][y] == false)res.add(Coordinate.Direction.RIGHT);
+        if(y < vis.length - 1 && vis[x][y+1] == false)res.add(Coordinate.Direction.DOWN); 
+        return res;
+    }
+    
+    public static boolean isVisited(boolean[][] vis, int x, int y){
+        if(x < 0 || y < 0 || x >= vis.length|| y >= vis.length)return false;
+        return vis[x][y];
     }
 }

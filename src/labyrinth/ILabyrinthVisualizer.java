@@ -8,7 +8,8 @@ import java.awt.geom.AffineTransform;
 public interface ILabyrinthVisualizer {
     public void visualize(Graphics2D gr, int size, Labyrinth lab);
 }
-class SimpleLabyrinthVisualizer implements ILabyrinthVisualizer{
+
+class BasicLabyrinthVisualizer implements ILabyrinthVisualizer{
     @Override
     public void visualize(Graphics2D gr, int size, Labyrinth lab) {
         gr.drawLine(0, 0, 0, size);
@@ -63,18 +64,22 @@ class CurveLabyrinthVisualizer implements ILabyrinthVisualizer{
         float cellSize =  (float) (size / (lab.getSize() + 0.5));
         int begCoord = Math.round(cellSize / 4);
         
+        
+        AffineTransform defaultTransform = gr.getTransform();
         AffineTransform at;
         
         
         for(int i = 0; i < lab.getSize(); i++){
             at = AffineTransform.getTranslateInstance(begCoord + Math.round(i * cellSize), begCoord);
-            gr.setTransform(at);
+            gr.setTransform(defaultTransform);
+            gr.transform(at);
             drawSinCurve(Math.round(cellSize), gr);
         }
         
         for(int i = 0; i < lab.getSize(); i++){
             at = AffineTransform.getTranslateInstance(begCoord, begCoord + Math.round(i * cellSize));
-            gr.setTransform(at);
+            gr.setTransform(defaultTransform);
+            gr.transform(at);
             gr.rotate(Math.PI / 2);
 
             drawSinCurve(Math.round(cellSize), gr);
@@ -90,7 +95,8 @@ class CurveLabyrinthVisualizer implements ILabyrinthVisualizer{
                 
                 if(cell.right == true){
                     at = AffineTransform.getTranslateInstance(Math.round(curX + cellSize), Math.round(curY));
-                    gr.setTransform(at);
+                    gr.setTransform(defaultTransform);
+                    gr.transform(at);
                     gr.rotate(Math.PI / 2);
                     
                     drawSinCurve(Math.round(cellSize), gr);
@@ -98,13 +104,14 @@ class CurveLabyrinthVisualizer implements ILabyrinthVisualizer{
                 
                 if(cell.down == true){
                     at = AffineTransform.getTranslateInstance(Math.round(curX), Math.round(curY + cellSize));
-                    gr.setTransform(at);
+                    gr.setTransform(defaultTransform);
+                    gr.transform(at);
                                         
                     drawSinCurve(Math.round(cellSize), gr);
                 }
                 
                 if(lab.getCell(j, i).content != Labyrinth.CellContent.NONE){
-                    gr.setTransform(AffineTransform.getTranslateInstance(0,0));
+                    gr.setTransform(defaultTransform);
                     if(lab.getCell(j, i).content == Labyrinth.CellContent.PLAYER){
                         gr.setColor(Color.green);
                         gr.fillOval(Math.round(curX + cellSize / 4), 
@@ -160,12 +167,14 @@ class TriangleLabyrinthVisualizer implements ILabyrinthVisualizer{
     public void visualize(Graphics2D gr, int size, Labyrinth lab) {
         float cellSize = (float)size / lab.getSize();
         
+        AffineTransform defaultTransform = gr.getTransform();
         AffineTransform at;
         
         for(int i = 0; i < lab.getSize(); i++){
             for(int j = 0; j < lab.getSize(); j++){
                 at = AffineTransform.getTranslateInstance(Math.round(i * cellSize), Math.round(j * cellSize));
-                gr.setTransform(at);
+                gr.setTransform(defaultTransform);
+                gr.transform(at);
                                 
                 if(lab.checkWall(i, j, Coordinate.Direction.UP) == true)drawUpSide(gr, (int)(cellSize + 1), Color.DARK_GRAY);
                 else drawUpSide(gr, (int)(cellSize + 1), Color.LIGHT_GRAY);
@@ -208,10 +217,10 @@ class TriangleLabyrinthVisualizer implements ILabyrinthVisualizer{
     }
 }
 
-class LineLabyrinthVisualizer implements ILabyrinthVisualizer{
+class MinimalisticLabyrinthVisualizer implements ILabyrinthVisualizer{
     @Override
     public void visualize(Graphics2D gr, int size, Labyrinth lab) {
-        AffineTransform at;
+        AffineTransform defaultTransform = gr.getTransform();
         float cellSize = (float)size / lab.getSize();
         
         for(int i = 0; i < lab.getSize(); i++){
@@ -229,7 +238,7 @@ class LineLabyrinthVisualizer implements ILabyrinthVisualizer{
                 }
                 
                 if(lab.getCell(j, i).content != Labyrinth.CellContent.NONE){
-                    gr.setTransform(AffineTransform.getTranslateInstance(0,0));
+                    gr.setTransform(defaultTransform);
                     if(lab.getCell(j, i).content == Labyrinth.CellContent.PLAYER){
                         gr.setColor(Color.green);
                         gr.fillOval(Math.round(cellSize * j + cellSize / 4), 
