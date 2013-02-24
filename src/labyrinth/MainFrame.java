@@ -8,7 +8,8 @@ import labyrinth.Labyrinth.IGameEndCallback;
 public class MainFrame extends JFrame {
     private IMazeGenerator generator;
     private Labyrinth labyrinth;
-    private ILabyrinthVisualizer visualizer;
+    private LabyrinthVisualizer visualizer;
+    VisualizatorMode mode = VisualizatorMode.FULL;
     int labyrinthSize = 12;
         
     
@@ -21,7 +22,7 @@ public class MainFrame extends JFrame {
             if(labyrinth != null){
                 Graphics2D gr = (Graphics2D)g;
                 int size = Math.min(this.getHeight(), this.getWidth());
-                visualizer.visualize(gr, size, labyrinth);
+                visualizer.visualize(gr, size, labyrinth, mode);
             }
         }
     }
@@ -39,17 +40,8 @@ public class MainFrame extends JFrame {
     public MainFrame(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
         this.setSize(500, 500);
-        
-//        JPanel mainPanel = new JPanel();
-//        this.add(mainPanel);
-        
-        
-//        BorderLayout bl = new BorderLayout();
-//        mainPanel.setLayout(bl);       
-//        mainPanel.add(labPanel, BorderLayout.CENTER);
-
         JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Interfaces");
+        JMenu intefaceMenu = new JMenu("Interfaces");
         
         JMenuItem basicInterfaceItem = new JMenuItem("Basic inteface");
         JMenuItem lineInterfaceItem = new JMenuItem("Minimalistic interface");
@@ -98,16 +90,45 @@ public class MainFrame extends JFrame {
         });
                 
         
-        menu.add(basicInterfaceItem);
-        menu.add(curveInterfaceItem);
-        menu.add(lineInterfaceItem);
-        menu.add(triangleInterfaceItem); 
-        menu.add(squareInterfaceItem); 
+        intefaceMenu.add(basicInterfaceItem);
+        intefaceMenu.add(curveInterfaceItem);
+        intefaceMenu.add(lineInterfaceItem);
+        intefaceMenu.add(triangleInterfaceItem); 
+        intefaceMenu.add(squareInterfaceItem); 
        
-        menuBar.add(menu);
+        JMenu modeMenu = new JMenu("Modes");
+        JMenuItem fullModeItem = new JMenuItem("Full");
+        JMenuItem nearestModeItem = new JMenuItem("Nearest");
+        JMenuItem sightModeItem = new JMenuItem("Sight line");
+        fullModeItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mode = VisualizatorMode.FULL;
+                labPanel.repaint();
+            }
+        });
         
+        nearestModeItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mode = VisualizatorMode.NEAREST;
+                labPanel.repaint();
+            }
+        });
         
+        sightModeItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mode = VisualizatorMode.SIGHT;
+                labPanel.repaint();
+            }
+        });
+        modeMenu.add(fullModeItem);
+        modeMenu.add(nearestModeItem);
+        modeMenu.add(sightModeItem);
         
+        menuBar.add(intefaceMenu);
+        menuBar.add(modeMenu);
         
         labPanel.addKeyListener(new KeyAdapter(){
             @Override
@@ -144,19 +165,16 @@ public class MainFrame extends JFrame {
         this.setJMenuBar(menuBar);
         this.add(labPanel);
         labPanel.setFocusable(true);
-        
-
-
-
     }
     
-    public void setOptions(IMazeGenerator generator, ILabyrinthVisualizer visualizer){
+    public void setOptions(IMazeGenerator generator, LabyrinthVisualizer visualizer){
         this.generator = generator;
         this.visualizer = visualizer;
     }
     
     public void initializeLabyrinth(){
         labyrinth = generator.generate(this.labyrinthSize);
+        
         labyrinth.setCallback(makeCallback(this));
         labyrinth.initializeGame();
     }

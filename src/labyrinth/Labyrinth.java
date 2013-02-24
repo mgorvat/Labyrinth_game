@@ -59,6 +59,11 @@ public class Labyrinth {
     private IGameEndCallback callBack;
     boolean gameInProgress = false;
     
+    public Coordinate getPlayerCoordinate(){
+        return playerCoordinate;
+    }
+    
+    
     public Labyrinth(int size){
         this.size = size;
         labyrinth = new Cell[size][];
