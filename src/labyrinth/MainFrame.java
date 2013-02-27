@@ -48,6 +48,7 @@ public class MainFrame extends JFrame {
         JMenuItem curveInterfaceItem = new JMenuItem("Curve interface");
         JMenuItem triangleInterfaceItem = new JMenuItem("Triangle interface");
         JMenuItem squareInterfaceItem = new JMenuItem("Square interface");
+        JMenuItem ellipseInterfaceItem = new JMenuItem("Ellipse interface");
         
         basicInterfaceItem.addActionListener(new ActionListener(){
             @Override
@@ -88,6 +89,14 @@ public class MainFrame extends JFrame {
                 labPanel.repaint();
             }
         });
+        
+        ellipseInterfaceItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visualizer = new EllipseLabyrinthVisualizer();
+                labPanel.repaint();
+            }
+        });
                 
         
         intefaceMenu.add(basicInterfaceItem);
@@ -95,6 +104,7 @@ public class MainFrame extends JFrame {
         intefaceMenu.add(lineInterfaceItem);
         intefaceMenu.add(triangleInterfaceItem); 
         intefaceMenu.add(squareInterfaceItem); 
+        intefaceMenu.add(ellipseInterfaceItem); 
        
         JMenu modeMenu = new JMenu("Modes");
         JMenuItem fullModeItem = new JMenuItem("Full");
