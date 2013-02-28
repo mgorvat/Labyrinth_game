@@ -38,8 +38,6 @@ public class MainFrame extends JFrame {
     }
     
     public MainFrame(){
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
-        this.setSize(500, 500);
         JMenuBar menuBar = new JMenuBar();
         JMenu intefaceMenu = new JMenu("Interfaces");
         
@@ -106,10 +104,12 @@ public class MainFrame extends JFrame {
         intefaceMenu.add(squareInterfaceItem); 
         intefaceMenu.add(ellipseInterfaceItem); 
        
-        JMenu modeMenu = new JMenu("Modes");
+        JMenu modeMenu = new JMenu("Visualizator modes");
         JMenuItem fullModeItem = new JMenuItem("Full");
         JMenuItem nearestModeItem = new JMenuItem("Nearest");
         JMenuItem sightModeItem = new JMenuItem("Sight line");
+        
+       
         fullModeItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -137,8 +137,48 @@ public class MainFrame extends JFrame {
         modeMenu.add(nearestModeItem);
         modeMenu.add(sightModeItem);
         
+        
+        JMenu algorithmsMenu = new JMenu("Algorithms");
+        
+        
+        JMenuItem huntAndKillGeneratorItem = new JMenuItem("Hunt and kill");
+        JMenuItem backTrackGeneratorItem = new JMenuItem("Backtracking");
+        JMenuItem divideEtImperaGeneratorItem = new JMenuItem("Divide and conquer");
+        
+        algorithmsMenu.add(huntAndKillGeneratorItem);
+        algorithmsMenu.add(backTrackGeneratorItem);
+        algorithmsMenu.add(divideEtImperaGeneratorItem);
+        
+        huntAndKillGeneratorItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generator = new HuntAndKillGenerator();
+                initializeLabyrinth();
+                labPanel.repaint();
+            }
+        });
+        
+        backTrackGeneratorItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generator = new BackTrackGenerator();
+                initializeLabyrinth();
+                labPanel.repaint();
+            }
+        });
+        
+        divideEtImperaGeneratorItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generator = new DivideEtImperaGenerator();
+                initializeLabyrinth();
+                labPanel.repaint();
+            }
+        });
+        
         menuBar.add(intefaceMenu);
         menuBar.add(modeMenu);
+        menuBar.add(algorithmsMenu);
         
         labPanel.addKeyListener(new KeyAdapter(){
             @Override
