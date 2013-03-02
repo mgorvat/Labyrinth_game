@@ -114,6 +114,11 @@ class BasicLabyrinthVisualizer extends LabyrinthVisualizer{
         cellSize = size / lab.getSize();
         defaultTransform = gr.getTransform();
     }
+    
+    @Override
+    public String toString(){
+        return "Basic";
+    }
 }
 
 class CurveLabyrinthVisualizer extends LabyrinthVisualizer{
@@ -178,6 +183,11 @@ class CurveLabyrinthVisualizer extends LabyrinthVisualizer{
             prev = cur;
         }   
     }
+    
+    @Override
+    public String toString(){
+        return "Curve";
+    }
 }
 
 class TriangleLabyrinthVisualizer extends LabyrinthVisualizer{
@@ -240,6 +250,11 @@ class TriangleLabyrinthVisualizer extends LabyrinthVisualizer{
         cellSize = size / lab.getSize();
         defaultTransform = gr.getTransform();
     }
+    
+    @Override
+    public String toString(){
+        return "Triangle";
+    }
 
 }
 
@@ -275,6 +290,11 @@ class MinimalisticLabyrinthVisualizer extends LabyrinthVisualizer{
     protected void processComputations(Graphics2D gr, int size, Labyrinth lab) {
         cellSize = size / lab.getSize();
         defaultTransform = gr.getTransform();
+    }
+    
+    @Override
+    public String toString(){
+        return "Minimalistic";
     }
 }
 
@@ -346,6 +366,11 @@ class SquareLabyrinthVisualizer extends LabyrinthVisualizer{
     protected void processComputations(Graphics2D gr, int size, Labyrinth lab) {
         cellSize = size / lab.getSize();
         defaultTransform = gr.getTransform();
+    }
+    
+    @Override
+    public String toString(){
+        return "Square";
     }
 }
 
@@ -587,5 +612,9 @@ class EllipseLabyrinthVisualizer extends LabyrinthVisualizer{
                 coordinates[coordinates.length - i - 1][coordinates.length - j - 1] = new Point(y, -x);
             }
         }
+    }
+    @Override
+    public String toString(){
+        return "Ellipse";
     }
 }

@@ -4,8 +4,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import labyrinth.Labyrinth.IGameEndCallback;
+import labyrinth.Statistic.StatisticSet;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame{
+    private Statistic statistic;
+    private StatisticSet statisticSet = new StatisticSet();
+    
     private IMazeGenerator generator;
     private Labyrinth labyrinth;
     private LabyrinthVisualizer visualizer;
@@ -31,6 +35,9 @@ public class MainFrame extends JFrame {
         return new IGameEndCallback(){
             @Override
             public void gameEnded() {
+                statistic.stopTimer();
+                statisticSet.add(statistic);
+                
                 JOptionPane.showMessageDialog(frm, "You win!");
                 initializeLabyrinth();
             }
@@ -38,6 +45,9 @@ public class MainFrame extends JFrame {
     }
     
     public MainFrame(){
+        final JFrame frame = this;
+        this.setTitle("Labyrinth game");
+        
         JMenuBar menuBar = new JMenuBar();
         JMenu intefaceMenu = new JMenu("Interfaces");
         
@@ -52,6 +62,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 visualizer = new BasicLabyrinthVisualizer();
+                initializeLabyrinth();
                 labPanel.repaint();
             }
         });
@@ -60,6 +71,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 visualizer = new MinimalisticLabyrinthVisualizer();
+                initializeLabyrinth();
                 labPanel.repaint();
             }
         });
@@ -68,6 +80,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 visualizer = new CurveLabyrinthVisualizer();
+                initializeLabyrinth();
                 labPanel.repaint();
             }
         });
@@ -76,6 +89,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 visualizer = new TriangleLabyrinthVisualizer();
+                initializeLabyrinth();
                 labPanel.repaint();
             }
         });
@@ -84,6 +98,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 visualizer = new SquareLabyrinthVisualizer();
+                initializeLabyrinth();
                 labPanel.repaint();
             }
         });
@@ -92,6 +107,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 visualizer = new EllipseLabyrinthVisualizer();
+                initializeLabyrinth();
                 labPanel.repaint();
             }
         });
@@ -114,6 +130,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mode = VisualizatorMode.FULL;
+                initializeLabyrinth();
                 labPanel.repaint();
             }
         });
@@ -122,6 +139,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mode = VisualizatorMode.NEAREST;
+                initializeLabyrinth();
                 labPanel.repaint();
             }
         });
@@ -130,6 +148,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mode = VisualizatorMode.SIGHT;
+                initializeLabyrinth();
                 labPanel.repaint();
             }
         });
@@ -138,7 +157,7 @@ public class MainFrame extends JFrame {
         modeMenu.add(sightModeItem);
         
         
-        JMenu algorithmsMenu = new JMenu("Algorithms");
+        JMenu algorithmsMenu = new JMenu("Labyrinth generators");
         
         
         JMenuItem huntAndKillGeneratorItem = new JMenuItem("Hunt and kill");
@@ -187,29 +206,57 @@ public class MainFrame extends JFrame {
                     case KeyEvent.VK_UP:
                     case KeyEvent.VK_W:
                     case KeyEvent.VK_K:
+                            statistic.computeStep(Coordinate.Direction.UP);    
                             labyrinth.movePlayer(Coordinate.Direction.UP);
                             break;
                         
                     case KeyEvent.VK_RIGHT:
                     case KeyEvent.VK_D:
                     case KeyEvent.VK_L:
+                        statistic.computeStep(Coordinate.Direction.RIGHT);
                         labyrinth.movePlayer(Coordinate.Direction.RIGHT);
                         break;
                         
                     case KeyEvent.VK_DOWN:    
                     case KeyEvent.VK_S:
                     case KeyEvent.VK_J:
+                        statistic.computeStep(Coordinate.Direction.DOWN);
                         labyrinth.movePlayer(Coordinate.Direction.DOWN);
                         break;
                         
                     case KeyEvent.VK_LEFT:
                     case KeyEvent.VK_A:
                     case KeyEvent.VK_H:
+                        statistic.computeStep(Coordinate.Direction.LEFT);
                         labyrinth.movePlayer(Coordinate.Direction.LEFT);
                         break;
                 }
                 labPanel.repaint();
             }
+        });
+        
+        
+        this.addWindowListener(new WindowListener(){
+            @Override
+            public void windowClosing(WindowEvent e) {
+                statisticSet.writeInFile();
+                
+                frame.dispose();
+                System.exit(0);
+            }
+
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {}
+            @Override
+            public void windowIconified(WindowEvent e) {    }
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
         });
         
         this.setJMenuBar(menuBar);
@@ -227,7 +274,7 @@ public class MainFrame extends JFrame {
         
         labyrinth.setCallback(makeCallback(this));
         labyrinth.initializeGame();
+        
+        statistic = new Statistic(labyrinth, generator, visualizer, mode);
     }
 }
-
-

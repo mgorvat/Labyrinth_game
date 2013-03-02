@@ -8,7 +8,7 @@ public class Main {
         MainFrame mfr = new MainFrame();
         mfr.setOptions(gen, new BasicLabyrinthVisualizer());
         mfr.initializeLabyrinth();
-        mfr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mfr.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mfr.setSize(500, 500);
         mfr.setVisible(true);
     }

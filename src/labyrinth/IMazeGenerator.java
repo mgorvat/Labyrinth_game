@@ -33,6 +33,10 @@ class BackTrackGenerator implements IMazeGenerator{
         } 
         return lab;
     }
+    @Override
+    public String toString(){
+        return "Backtrack";
+    }
 }
 
 class HuntAndKillGenerator implements IMazeGenerator{
@@ -93,6 +97,11 @@ class HuntAndKillGenerator implements IMazeGenerator{
         }
         return lab;
     }
+    
+    @Override
+    public String toString(){
+        return "Hunt and kill";
+    }
 }
 
 
@@ -146,7 +155,10 @@ class DivideEtImperaGenerator implements IMazeGenerator{
         divideEtImpera(lab, x1, yLine + 1, xLine, y2, rnd);
         divideEtImpera(lab, xLine + 1, yLine + 1, x2, y2, rnd);
     }
-
+    @Override
+    public String toString(){
+        return "Divide and conquer";
+    }
 }
 
 
