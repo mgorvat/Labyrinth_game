@@ -164,7 +164,7 @@ public class Statistic {
                         JOptionPane.showMessageDialog(null, "Writing file error. Try to choose another path!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null, "Oath not choosed! Please choose the path.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Path not choosed! Please choose the path.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
