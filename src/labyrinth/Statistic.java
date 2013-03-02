@@ -3,8 +3,6 @@ package labyrinth;
 import CSVLib.CSV;
 import java.io.File;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import labyrinth.Coordinate.Direction;
