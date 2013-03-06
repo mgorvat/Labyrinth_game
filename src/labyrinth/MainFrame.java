@@ -56,7 +56,7 @@ public class MainFrame extends JFrame{
         JMenuItem curveInterfaceItem = new JMenuItem("Curve interface");
         JMenuItem triangleInterfaceItem = new JMenuItem("Triangle interface");
         JMenuItem squareInterfaceItem = new JMenuItem("Square interface");
-        JMenuItem ellipseInterfaceItem = new JMenuItem("Ellipse interface");
+        JMenuItem ellipseInterfaceItem = new JMenuItem("Elliptical interface");
         
         basicInterfaceItem.addActionListener(new ActionListener(){
             @Override
