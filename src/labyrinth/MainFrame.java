@@ -42,11 +42,12 @@ public class MainFrame extends JFrame {
         JMenu intefaceMenu = new JMenu("Interfaces");
         
         JMenuItem basicInterfaceItem = new JMenuItem("Basic inteface");
-        JMenuItem lineInterfaceItem = new JMenuItem("Minimalistic interface");
+        JMenuItem squareInterfaceItem = new JMenuItem("Square interface");
+        JMenuItem minimalisticInterfaceItem = new JMenuItem("Minimalistic interface");
+        JMenuItem ellipseInterfaceItem = new JMenuItem("Elliptical interface");
         JMenuItem curveInterfaceItem = new JMenuItem("Curve interface");
         JMenuItem triangleInterfaceItem = new JMenuItem("Triangle interface");
-        JMenuItem squareInterfaceItem = new JMenuItem("Square interface");
-        JMenuItem ellipseInterfaceItem = new JMenuItem("Ellipse interface");
+        
         
         basicInterfaceItem.addActionListener(new ActionListener(){
             @Override
@@ -56,7 +57,7 @@ public class MainFrame extends JFrame {
             }
         });
         
-        lineInterfaceItem.addActionListener(new ActionListener(){
+        minimalisticInterfaceItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 visualizer = new MinimalisticLabyrinthVisualizer();
@@ -98,11 +99,12 @@ public class MainFrame extends JFrame {
                 
         
         intefaceMenu.add(basicInterfaceItem);
-        intefaceMenu.add(curveInterfaceItem);
-        intefaceMenu.add(lineInterfaceItem);
-        intefaceMenu.add(triangleInterfaceItem); 
         intefaceMenu.add(squareInterfaceItem); 
+        intefaceMenu.add(minimalisticInterfaceItem);
         intefaceMenu.add(ellipseInterfaceItem); 
+        intefaceMenu.add(curveInterfaceItem);
+        intefaceMenu.add(triangleInterfaceItem); 
+        
        
         JMenu modeMenu = new JMenu("Visualizator modes");
         JMenuItem fullModeItem = new JMenuItem("Full");
@@ -138,7 +140,7 @@ public class MainFrame extends JFrame {
         modeMenu.add(sightModeItem);
         
         
-        JMenu algorithmsMenu = new JMenu("Algorithms");
+        JMenu algorithmsMenu = new JMenu("Labyrinth generators");
         
         
         JMenuItem huntAndKillGeneratorItem = new JMenuItem("Hunt and kill");
