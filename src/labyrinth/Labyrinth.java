@@ -95,6 +95,7 @@ public class Labyrinth {
 
                 playerCoordinate = new Coordinate(playerCoordinate, dir);
                 if(getCell(playerCoordinate).content == CellContent.GOAL){
+                    getCell(playerCoordinate).content = CellContent.PLAYER;
                     callBack.gameEnded();
                     gameInProgress = false;            
                 }

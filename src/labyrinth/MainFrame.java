@@ -31,6 +31,7 @@ public class MainFrame extends JFrame {
         return new IGameEndCallback(){
             @Override
             public void gameEnded() {
+                frm.repaint();
                 JOptionPane.showMessageDialog(frm, "You win!");
                 initializeLabyrinth();
             }
