@@ -1,6 +1,3 @@
-*.xml
-*.mf
 build/
 nbproject/
-/dist/
 dist/README.TXT
